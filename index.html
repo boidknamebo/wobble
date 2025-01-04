@@ -6,99 +6,140 @@
     <title>:wobble: Emoji Everywhere</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
             margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            flex-direction: column;
+            align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-            text-align: center;
+            flex-direction: column;
             padding: 20px;
         }
-        .wobble-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
+
+        h1 {
+            color: #333;
+            font-size: 36px;
+            text-align: center;
         }
-        .wobble {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-        }
-        .input-container {
+
+        .messages {
             width: 100%;
-            display: flex;
-            justify-content: center;
+            max-width: 600px;
             margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
+
+        .message {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .input-container {
+            display: flex;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
         input[type="text"] {
             width: 80%;
             padding: 10px;
             font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border 0.3s ease;
         }
+
+        input[type="text"]:focus {
+            border-color: #4CAF50;
+        }
+
         button {
-            padding: 10px;
+            padding: 10px 15px;
             font-size: 16px;
             margin-left: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        .messages {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
-            gap: 10px;
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .wobble-gif {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
         }
     </style>
 </head>
 <body>
 
-<div class="wobble-container">
-    <!-- Static Wobble GIFs -->
-    <div class="wobble">
-        <div class="tenor-gif-embed" data-postid="12498916" data-share-method="host" data-aspect-ratio="0.986547" data-width="100%">
-            <a href="https://tenor.com/view/abobblewobble-yellow-dude-emoji-moving-gif-12498916">Abobblewobble Yellow GIF</a> from 
-            <a href="https://tenor.com/search/abobblewobble-gifs">Abobblewobble GIFs</a>
-        </div>
-        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-    </div>
-</div>
+<h1>:wobble: Emoji Everywhere</h1>
 
-<!-- Input for user to type -->
+<!-- Messages Area -->
+<div class="messages" id="messages"></div>
+
+<!-- Input Field and Send Button -->
 <div class="input-container">
     <input type="text" id="messageInput" placeholder="Type :wobble: and hit Send">
     <button onclick="sendMessage()">Send</button>
 </div>
 
-<!-- Messages area -->
-<div class="messages" id="messages"></div>
-
 <script>
+    // Function to send and display the message
     function sendMessage() {
         let input = document.getElementById("messageInput");
-        let messageText = input.value;
+        let messageText = input.value.trim();
         let messagesContainer = document.getElementById("messages");
 
+        // Create a new div for the message
+        let messageDiv = document.createElement("div");
+        messageDiv.classList.add("message");
+
+        // Check if the message contains :wobble:
         if (messageText.includes(":wobble:")) {
-            // Replace ":wobble:" with the GIF
-            let message = messageText.replace(":wobble:", `
+            // Replace :wobble: with the GIF
+            let gifHTML = `
                 <div class="tenor-gif-embed" data-postid="12498916" data-share-method="host" data-aspect-ratio="0.986547" data-width="100%">
                     <a href="https://tenor.com/view/abobblewobble-yellow-dude-emoji-moving-gif-12498916">Abobblewobble Yellow GIF</a> from 
                     <a href="https://tenor.com/search/abobblewobble-gifs">Abobblewobble GIFs</a>
                 </div>
                 <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-            `);
-            messagesContainer.innerHTML += `<div>${message}</div>`;
+            `;
+            messageDiv.innerHTML = gifHTML;
         } else {
-            messagesContainer.innerHTML += `<div>${messageText}</div>`;
+            messageDiv.textContent = messageText;
         }
-        
-        input.value = ''; // Clear input after sending
+
+        // Append the message to the container
+        messagesContainer.appendChild(messageDiv);
+
+        // Scroll to the bottom of the messages
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        // Clear the input field after sending the message
+        input.value = '';
     }
 </script>
 

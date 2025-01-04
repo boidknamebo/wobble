@@ -10,11 +10,13 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
+            flex-direction: column;
             height: 100vh;
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
             text-align: center;
+            padding: 20px;
         }
         .wobble-container {
             display: flex;
@@ -27,27 +29,37 @@
             height: 100px;
             object-fit: cover;
         }
+        .input-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .messages {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
 
 <div class="wobble-container">
-    <div class="wobble">
-        <div class="tenor-gif-embed" data-postid="12498916" data-share-method="host" data-aspect-ratio="0.986547" data-width="100%">
-            <a href="https://tenor.com/view/abobblewobble-yellow-dude-emoji-moving-gif-12498916">Abobblewobble Yellow GIF</a> from 
-            <a href="https://tenor.com/search/abobblewobble-gifs">Abobblewobble GIFs</a>
-        </div>
-        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-    </div>
-
-    <div class="wobble">
-        <div class="tenor-gif-embed" data-postid="12498916" data-share-method="host" data-aspect-ratio="0.986547" data-width="100%">
-            <a href="https://tenor.com/view/abobblewobble-yellow-dude-emoji-moving-gif-12498916">Abobblewobble Yellow GIF</a> from 
-            <a href="https://tenor.com/search/abobblewobble-gifs">Abobblewobble GIFs</a>
-        </div>
-        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-    </div>
-
+    <!-- Static Wobble GIFs -->
     <div class="wobble">
         <div class="tenor-gif-embed" data-postid="12498916" data-share-method="host" data-aspect-ratio="0.986547" data-width="100%">
             <a href="https://tenor.com/view/abobblewobble-yellow-dude-emoji-moving-gif-12498916">Abobblewobble Yellow GIF</a> from 
@@ -56,6 +68,39 @@
         <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
     </div>
 </div>
+
+<!-- Input for user to type -->
+<div class="input-container">
+    <input type="text" id="messageInput" placeholder="Type :wobble: and hit Send">
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<!-- Messages area -->
+<div class="messages" id="messages"></div>
+
+<script>
+    function sendMessage() {
+        let input = document.getElementById("messageInput");
+        let messageText = input.value;
+        let messagesContainer = document.getElementById("messages");
+
+        if (messageText.includes(":wobble:")) {
+            // Replace ":wobble:" with the GIF
+            let message = messageText.replace(":wobble:", `
+                <div class="tenor-gif-embed" data-postid="12498916" data-share-method="host" data-aspect-ratio="0.986547" data-width="100%">
+                    <a href="https://tenor.com/view/abobblewobble-yellow-dude-emoji-moving-gif-12498916">Abobblewobble Yellow GIF</a> from 
+                    <a href="https://tenor.com/search/abobblewobble-gifs">Abobblewobble GIFs</a>
+                </div>
+                <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+            `);
+            messagesContainer.innerHTML += `<div>${message}</div>`;
+        } else {
+            messagesContainer.innerHTML += `<div>${messageText}</div>`;
+        }
+        
+        input.value = ''; // Clear input after sending
+    }
+</script>
 
 </body>
 </html>
